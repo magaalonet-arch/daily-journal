@@ -1,7 +1,16 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { AIAnalysis } from "../types";
 
-const API_KEY = process.env.API_KEY || ''; // In a real app, ensure this is handled securely
+// Safely check for process.env to avoid "process is not defined" errors in browser
+const getApiKey = () => {
+  try {
+    return (typeof process !== 'undefined' && process.env && process.env.API_KEY) || '';
+  } catch (e) {
+    return '';
+  }
+};
+
+const API_KEY = getApiKey();
 
 // We mock this if no API key is present for the demo to work without crashing, 
 // but the prompt assumes we use valid Gemini implementation patterns.
